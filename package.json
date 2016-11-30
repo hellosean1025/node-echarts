@@ -1,0 +1,24 @@
+{
+  "name": "node-echarts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suxiaoxin/node-echarts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suxiaoxin/node-echarts/issues"
+  },
+  "homepage": "https://github.com/suxiaoxin/node-echarts#readme",
+  "dependencies": {
+    "canvas": "^1.6.2",
+    "echarts": "^3.3.2",
+    "jsdom": "^9.8.3"
+  }
+}
