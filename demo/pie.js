@@ -69,6 +69,5 @@ var node_echarts = require('../index.js');
 var path = require('path');
 node_echarts({
     path: __dirname + '/pie.png',
-    option: option,
-    echarts: path.dirname(__dirname) + '/node_modules/echarts/dist/echarts.js',
+    option: option
 })

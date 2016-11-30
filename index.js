@@ -1,4 +1,11 @@
-var jsdom = require("jsdom");
+var echarts = require("echarts");
+var Canvas = require("canvas");
+var fs     = require('fs');
+
+echarts.setCanvasCreator(function () {
+    var canvas = new Canvas(128, 128);
+    return canvas;
+});
 /**
  * @param config = {
         width: 图表宽度
@@ -27,37 +34,20 @@ module.exports = function(config){
                 data: [5, 20, 36, 10, 10, 20]
             }]
         };
-    config.width = config.width || '500px';
-    config.height = config.height || '500px';
+    config.width = config.width || 500;
+    config.height = config.height || 500;
     config.option = config.option || option;
     config.path = config.path || process.cwd() + '/test.png';
-    config.timeout = config.timeout || 0;
     config.option.animation = false;
-    config.option.progressive = 0;
-    if(!config.echarts){
-        console.error('echarts path is empty,please check config.echarts')
-    }
-    console.log(config.echarts)
-    jsdom.env(
-      '<div id="main" style="width:'+config.width+'; height:'+config.width+';"></div>',
-      [config.echarts],
-      function (err, window) {
-         var document = window.document;
-         echarts = window.echarts;
+    var chart = echarts.init(new Canvas(parseInt(config.width,10), parseInt(config.height,10)));
+    chart.setOption(config.option);
+    setTimeout(function(){
 
-         var myChart = echarts.init(document.getElementById('main'));
+        fs.writeFile(config.path, chart.getDom().toBuffer(), function(){
+            console.log("Create Img:" +config.path)
+            process.exit()
+        })
+    },0)
 
-            myChart.setOption(config.option);
-            setTimeout(function(){
-                var data = myChart.getDataURL();
-                var fs = require("fs");
-                data = data.substr(22);
-                var imageBuffer = new Buffer(data, 'base64');
-                fs.writeFile(config.path, imageBuffer, function(){
-                    console.log("Create Img:" +config.path)
-                    process.exit()
-                });
-            },config.timeout)
-      }
-    );
+
 }

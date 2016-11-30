@@ -80,7 +80,6 @@ var path = require('path');
 node_echarts({
     path: __dirname + '/area.png',
     option: option,
-    width:  '1000px',
-    echarts: path.dirname(__dirname) + '/node_modules/echarts/dist/echarts.js',
-    height: '500px'
+    width:  1000,
+    height: 500
 })
