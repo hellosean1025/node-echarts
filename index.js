@@ -42,10 +42,8 @@ module.exports = function(config){
     var chart = echarts.init(new Canvas(parseInt(config.width,10), parseInt(config.height,10)));
     chart.setOption(config.option);
     setTimeout(function(){
-
         fs.writeFile(config.path, chart.getDom().toBuffer(), function(){
             console.log("Create Img:" +config.path)
-            process.exit()
         })
     },0)
 
