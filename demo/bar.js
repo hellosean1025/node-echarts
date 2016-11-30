@@ -114,9 +114,11 @@ option = {
     ]
 };
 var node_echarts = require('../index.js');
+var path = require('path');
 node_echarts({
     path: __dirname + '/bar.png',
     option: option,
     width:  '1000px',
+    echarts: path.dirname(__dirname) + '/node_modules/echarts/dist/echarts.js',
     height: '500px'
 })

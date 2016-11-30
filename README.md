@@ -12,6 +12,7 @@ node_echarts({
     option: option， //option是echarts配置参数
     width: '500px', //图表生成宽度
     height: '500px' //图表生成高度
+    echarts: '/var/www/echart.js' //echarts.js 路径 (必填)
 })
 
 ```

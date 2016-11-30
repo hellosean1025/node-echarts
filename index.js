@@ -1,5 +1,4 @@
 var jsdom = require("jsdom");
-
 /**
  * @param config = {
         width: 图表宽度
@@ -10,7 +9,6 @@ var jsdom = require("jsdom");
  *
 */
 module.exports = function(config){
-    config = config || {};
     var option = {
             title: {
                 text: 'test'
@@ -36,14 +34,19 @@ module.exports = function(config){
     config.timeout = config.timeout || 0;
     config.option.animation = false;
     config.option.progressive = 0;
-
+    if(!config.echarts){
+        console.error('echarts path is empty,please check config.echarts')
+    }
+    console.log(config.echarts)
     jsdom.env(
       '<div id="main" style="width:'+config.width+'; height:'+config.width+';"></div>',
-      [__dirname + '/node_modules/echarts/dist/echarts.js'],
+      [config.echarts],
       function (err, window) {
          var document = window.document;
-         var echarts = window.echarts;
+         echarts = window.echarts;
+
          var myChart = echarts.init(document.getElementById('main'));
+
             myChart.setOption(config.option);
             setTimeout(function(){
                 var data = myChart.getDataURL();
@@ -51,6 +54,7 @@ module.exports = function(config){
                 data = data.substr(22);
                 var imageBuffer = new Buffer(data, 'base64');
                 fs.writeFile(config.path, imageBuffer, function(){
+                    console.log("Create Img:" +config.path)
                     process.exit()
                 });
             },config.timeout)
