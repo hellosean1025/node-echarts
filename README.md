@@ -1,6 +1,5 @@
 # node-echarts
-后台生成echarts图表，已文件的方式保存
-
+nodejs后台生成echarts图表文件
 # Install
 npm install node-echarts
 
