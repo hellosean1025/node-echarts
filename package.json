@@ -18,7 +18,6 @@
   "homepage": "https://github.com/suxiaoxin/node-echarts#readme",
   "dependencies": {
     "canvas": "^1.6.2",
-    "echarts": "^3.3.2",
-    "jsdom": "^9.8.3"
+    "echarts": "^3.3.2"
   }
 }
