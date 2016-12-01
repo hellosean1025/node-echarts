@@ -16,7 +16,7 @@ echarts.setCanvasCreator(function () {
  *
 */
 module.exports = function(config){
-    var option = {
+    var chart,option = {
             title: {
                 text: 'test'
             },
@@ -39,13 +39,12 @@ module.exports = function(config){
     config.option = config.option || option;
     config.path = config.path || process.cwd() + '/test.png';
     config.option.animation = false;
-    var chart = echarts.init(new Canvas(parseInt(config.width,10), parseInt(config.height,10)));
+    chart = echarts.init(new Canvas(parseInt(config.width,10), parseInt(config.height,10)));
     chart.setOption(config.option);
-    setTimeout(function(){
-        fs.writeFile(config.path, chart.getDom().toBuffer(), function(){
-            console.log("Create Img:" +config.path)
-        })
-    },0)
-
-
+    try{
+        fs.writeFileSync(config.path, chart.getDom().toBuffer());
+        console.log("Create Img:" +config.path)
+    }catch(err){
+        console.error("Error: Write File failed" + err.message)
+    }   
 }

@@ -71,3 +71,4 @@ node_echarts({
     path: __dirname + '/pie.png',
     option: option
 })
+process.exit();

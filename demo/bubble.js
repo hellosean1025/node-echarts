@@ -103,3 +103,4 @@ node_echarts({
     path: __dirname + '/bubble.png',
     option: option
 })
+process.exit()
