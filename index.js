@@ -1,11 +1,8 @@
 var echarts = require("echarts");
 var Canvas = require("canvas");
 var fs     = require('fs');
+var path   = require('path');
 
-echarts.setCanvasCreator(function () {
-    var canvas = new Canvas(128, 128);
-    return canvas;
-});
 /**
  * @param config = {
         width: 图表宽度
@@ -16,6 +13,13 @@ echarts.setCanvasCreator(function () {
  *
 */
 module.exports = function(config){
+    if(config.canvas){
+        Canvas = config.canvas;
+    }
+    echarts.setCanvasCreator(function () {
+        return ctx;
+    });
+    var ctx = new Canvas(128, 128);
     var chart,option = {
             title: {
                 text: 'test'
@@ -38,6 +42,10 @@ module.exports = function(config){
     config.height = config.height || 500;
     config.option = config.option || option;
     config.path = config.path || process.cwd() + '/test.png';
+    if(config.font){
+        ctx.font = config.font;
+    }
+    
     config.option.animation = false;
     chart = echarts.init(new Canvas(parseInt(config.width,10), parseInt(config.height,10)));
     chart.setOption(config.option);
