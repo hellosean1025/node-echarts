@@ -15,8 +15,9 @@ node_echarts({
 
 ```
 #中文无法显示或乱码解决办法
-1.git clone https://github.com/chearon/node-canvas#12971f64a66b   
-2.下载所需要的字体   
+##中文无法显示是因为node-canvas库缺乏相应的字体，node-canvas某一分支提供了加入字体的api,下面是解决办法
+1.git clone https://github.com/chearon/node-canvas#12971f64a66b   ,然后进入到clone的项目目录，执行npm install   
+2.下载所需要的字体   
 3.具体代码如下：   
 ```
 var node_echarts = require('node-echarts');
@@ -33,3 +34,5 @@ node_echarts({
 })
 
 ```
+
+可查看demo下中文字体demo.js
