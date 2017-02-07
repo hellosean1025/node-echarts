@@ -14,3 +14,22 @@ node_echarts({
 })
 
 ```
+#中文无法显示或乱码解决办法
+1.git clone https://github.com/chearon/node-canvas#12971f64a66b   
+2.下载所需要的字体   
+3.具体代码如下：   
+```
+var node_echarts = require('node-echarts');
+var path = require('path');
+var Canvas =require('./node-canvas');
+Canvas.registerFont(path.join(__dirname, "华文仿宋.ttf"), { family: "华文仿宋"});
+node_echarts({
+    canvas: Canvas,
+    font: '12px 华文仿宋',
+    path: __dirname + '/中文字体demo.png',
+    option: option,
+    width:  1000,
+    height: 500
+})
+
+```
