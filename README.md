@@ -9,14 +9,16 @@ Fedora | `sudo yum install cairo cairo-devel cairomm-devel libjpeg-turbo-devel p
 Solaris | `pkgin install cairo pango pkg-config xproto renderproto kbproto xextproto`
 Windows | [Instructions on our wiki](https://github.com/Automattic/node-canvas/wiki/Installation---Windows)
 
+```
 npm install node-echarts
+```
 
 # 使用方法
 ```
 var node_echarts = require('node-echarts');
 node_echarts({
     path: __dirname + '/pie.png', //生成文件路径
-    option: option， //option是echarts配置参数
+    option: option, //option是echarts配置参数
     width: 500, //图表生成宽度
     height: 500 //图表生成高度
 })
