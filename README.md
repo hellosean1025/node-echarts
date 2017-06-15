@@ -14,7 +14,7 @@ npm install node-echarts
 ```
 
 # 使用方法
-```
+```javascript
 var node_echarts = require('node-echarts');
 node_echarts({
     path: __dirname + '/pie.png', //生成文件路径
@@ -27,13 +27,13 @@ node_echarts({
 # 中文无法显示或乱码解决办法
 
 中文无法显示是因为node-canvas库缺乏相应的字体，node-canvas某一分支提供了加入字体的api,下面是解决办法:   
-1.git clone https://github.com/chearon/node-canvas.git   ,然后进入到clone的项目目录，执行npm install
+1. git clone https://github.com/chearon/node-canvas.git   ,然后进入到clone的项目目录，执行npm install
 
-2.下载所需要的字体
+2. 下载所需要的字体
 
-3.具体代码如下：
+3. 具体代码如下：
 
-```
+```javascript
 var node_echarts = require('node-echarts');
 var path = require('path');
 var Canvas =require('./node-canvas'); //这里的路径是刚clone项目路径
