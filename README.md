@@ -1,6 +1,6 @@
 # node-echarts
 nodejs后台生成echarts图表文件
-## Install
+### Install
 OS | Command
 ----- | -----
 OS X | `brew install pkg-config cairo pango libpng jpeg giflib`
@@ -13,7 +13,7 @@ Windows | [Instructions on our wiki](https://github.com/Automattic/node-canvas/w
 npm install node-echarts
 ```
 
-## 使用方法
+### 使用方法
 ```javascript
 var node_echarts = require('node-echarts');
 node_echarts({
@@ -24,7 +24,7 @@ node_echarts({
 })
 
 ```
-## 中文无法显示或乱码解决办法
+### 中文无法显示或乱码解决办法
 
 中文无法显示是因为node-canvas库缺乏相应的字体，node-canvas某一分支提供了加入字体的api,下面是解决办法:   
 1. git clone https://github.com/chearon/node-canvas.git   ,然后进入到clone的项目目录，执行npm install
@@ -48,5 +48,3 @@ node_echarts({
 })
 
 ```
-
-可查看 demo/中文字体demo.js
