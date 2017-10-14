@@ -1,5 +1,5 @@
 # node-echarts
-Node generate chart by Echarts.
+Generate chart by Echarts in Nodejs.
 ### Install
 OS | Command
 ----- | -----
