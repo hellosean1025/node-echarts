@@ -1,4 +1,7 @@
-option = {
+var node_echarts = require('../index.js');
+var path = require('path');
+
+var option = {
     title: {
         text: '堆叠区域图'
     },
@@ -75,11 +78,13 @@ option = {
         }
     ]
 };
-var node_echarts = require('../index.js');
-var path = require('path');
+
+module.exports = option
+
 node_echarts({
     path: __dirname + '/area.png',
     option: option,
     width:  1000,
     height: 500
 })
+
