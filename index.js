@@ -12,7 +12,7 @@ var path   = require('path');
     }
  *
 */
-module.exports = function(config){
+module.exports = async (config) => {
     if(config.canvas){
         Canvas = config.canvas;
     }
@@ -40,8 +40,7 @@ module.exports = function(config){
         };
     config.width = config.width || 500;
     config.height = config.height || 500;
-    config.option = config.option || option;
-    config.path = config.path || process.cwd() + '/test.png';
+    config.option = config.option || option;  
     if(config.font){
         ctx.font = config.font;
     }
@@ -49,10 +48,14 @@ module.exports = function(config){
     config.option.animation = false;
     chart = echarts.init(new Canvas(parseInt(config.width,10), parseInt(config.height,10)));
     chart.setOption(config.option);
-    try{
-        fs.writeFileSync(config.path, chart.getDom().toBuffer());
-        console.log("Create Img:" +config.path)
-    }catch(err){
-        console.error("Error: Write File failed" + err.message)
-    }   
+    if (config.path) {
+        try {
+            fs.writeFileSync(config.path, chart.getDom().toBuffer());
+            console.log("Create Img:" + config.path)
+        } catch (err) {
+            console.error("Error: Write File failed" + err.message)
+        } 
+    } else {
+        return chart.getDom().toBuffer()
+    }
 }

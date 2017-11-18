@@ -3,9 +3,10 @@ import echarts from './index'
 import option from './demo/area'
 import { readFileSync, unlinkSync } from 'fs'
 
+const testImage = readFileSync('./demo/area.png')
+
 test('save file', async (t) => {
   const path = __dirname + '/area.png'
-  const original = readFileSync(__dirname + '/demo/area.png')
 
   echarts({
     path,
@@ -16,7 +17,17 @@ test('save file', async (t) => {
 
   const file = readFileSync(path)
 
-  t.is(file.length, original.length)
+  t.is(file.length, testImage.length)
 
   unlinkSync(path)
+})
+
+test('return buffer instead of write file', async (t) => {
+  const data = await echarts({
+    width: 1000,
+    height: 500,
+    option
+  })
+
+  t.is(data.length, testImage.length)
 })
