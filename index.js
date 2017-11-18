@@ -5,11 +5,13 @@ var path   = require('path');
 
 /**
  * @param config = {
-        width: 图表宽度
-        height: 图表高度
-        option: echarts配置
-        path:  生成文件路径
+        width: 500 // Image width, type is number.
+        height: 500 // Image height, type is number.
+        option: {}, // Echarts configuration, type is Object.
+        //If the path  is not set, return the Buffer of image.
+        path:  '', // Path is filepath of the image which will be created.
     }
+    
  *
 */
 module.exports = async (config) => {
