@@ -17,9 +17,12 @@ npm install node-echarts
 ```javascript
 var node_echarts = require('node-echarts');
 node_echarts({
-    path: __dirname + '/pie.png', //Generate filepath
-    option: option, //echarts options
-    width: 500, //width Integer
-    height: 500 //Height Integer
+    width: 500 // Image width, type is number.
+    height: 500 // Image height, type is number.
+    option: {}, // Echarts configuration, type is Object.
+    //If the path  is not set, return the Buffer of image.
+    path:  '', // Path is filepath of the image which will be created.
 })
+
+```
 
