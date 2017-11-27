@@ -1,11 +1,11 @@
 ## Version
 ~ 
 
-## 期盼的行为
+## What is expected
 ~
 
-## 如何复现
+## Step to reproduce
 ~ 
 
-## 使用环境
+## Environment
 ~ 
