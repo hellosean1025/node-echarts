@@ -57,7 +57,10 @@ module.exports = async (config) => {
         } catch (err) {
             console.error("Error: Write File failed" + err.message)
         } 
+        chart.dispose();
     } else {
-        return chart.getDom().toBuffer()
+        var buffer = chart.getDom().toBuffer();
+        chart.dispose();
+        return buffer;
     }
 }
