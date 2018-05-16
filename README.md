@@ -1,3 +1,8 @@
+# 2018-05-16 更新内容：
+在生成完图片后直接销毁掉chart对象，因为chart在创建成功后会监听一堆事件，导致在生成图片完成后程序还是一直保持监听状态，所有在chart生成完图片后直接销毁掉 
+```javascript
+chart.dispose();
+```
 # node-echarts
 Generate chart by Echarts in Nodejs.
 ### Install
