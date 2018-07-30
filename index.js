@@ -3,6 +3,7 @@ var Canvas = require("canvas-prebuilt");
 var fs = require('fs');
 var path = require('path');
 
+
 /**
  * @param config = {
         width: 500 // Image width, type is number.
@@ -11,10 +12,21 @@ var path = require('path');
         //If the path  is not set, return the Buffer of image.
         path:  '', // Path is filepath of the image which will be created.
     }
-    
+
  *
-*/
-module.exports = function(config) {
+ */
+module.exports = function (config, registers) {
+    if (!!registers) {
+        if (Array.isArray(registers)) {
+            for (var i = 0; i < registers.length; i++) {
+                require(registers[i]);
+            }
+        } else if (typeof registers === 'string') {
+            require(registers);
+        } else {
+            throw new Error("registers 参数类型不对，只支持字符串数组和字符串");
+        }
+    }
     if (config.canvas) {
         Canvas = config.canvas;
     }
@@ -24,10 +36,10 @@ module.exports = function(config) {
         ctx.font = config.font;
     }
 
-    echarts.setCanvasCreator(function() {
+    echarts.setCanvasCreator(function () {
         return ctx;
     });
-    
+
     var chart, option = {
         title: {
             text: 'test'
