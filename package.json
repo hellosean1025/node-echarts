@@ -23,7 +23,7 @@
   "homepage": "https://github.com/suxiaoxin/node-echarts#readme",
   "dependencies": {
     "canvas-prebuilt": "^1.6.5-prerelease.1",
-    "echarts": "^3.6.2"
+    "echarts": "^4.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.32",
