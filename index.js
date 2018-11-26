@@ -15,18 +15,7 @@ var path = require('path');
 
  *
  */
-module.exports = function (config, registers) {
-    if (!!registers) {
-        if (Array.isArray(registers)) {
-            for (var i = 0; i < registers.length; i++) {
-                require(registers[i]);
-            }
-        } else if (typeof registers === 'string') {
-            require(registers);
-        } else {
-            throw new Error("registers 参数类型不对，只支持字符串数组和字符串");
-        }
-    }
+module.exports = function (config) {
     if (config.canvas) {
         Canvas = config.canvas;
     }
@@ -58,10 +47,15 @@ module.exports = function (config, registers) {
             data: [5, 20, 36, 10, 10, 20]
         }]
     };
-    config.width = config.width || 500;
-    config.height = config.height || 500;
-    config.option = config.option || option;
 
+    let defaultConfig = {
+      width: 500,
+      height: 500,
+      option,
+      enableAutoDispose: true
+    }
+
+    config = Object.assign({}, defaultConfig, config)
 
     config.option.animation = false;
     chart = echarts.init(new Canvas(parseInt(config.width, 10), parseInt(config.height, 10)));
@@ -69,14 +63,21 @@ module.exports = function (config, registers) {
     if (config.path) {
         try {
             fs.writeFileSync(config.path, chart.getDom().toBuffer());
+            if(config.enableAutoDispose){
+              chart.dispose();
+            }
             console.log("Create Img:" + config.path)
         } catch (err) {
             console.error("Error: Write File failed" + err.message)
         }
-        chart.dispose();
+        
     } else {
         var buffer = chart.getDom().toBuffer();
-        chart.dispose();
+        try{
+          if(config.enableAutoDispose){
+            chart.dispose();
+          }
+        }catch(e){}
         return buffer;
     }
 }
