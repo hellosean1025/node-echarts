@@ -1,7 +1,8 @@
 var echarts = require("echarts");
 var Canvas = require("canvas-prebuilt");
-var fs     = require('fs');
-var path   = require('path');
+var fs = require('fs');
+var path = require('path');
+
 
 /**
  * @param config = {
@@ -11,44 +12,59 @@ var path   = require('path');
         //If the path  is not set, return the Buffer of image.
         path:  '', // Path is filepath of the image which will be created.
     }
-    
+
  *
-*/
-module.exports = async (config) => {
-    if(config.canvas){
+ */
+module.exports = function (config, registers) {
+    if (!!registers) {
+        if (Array.isArray(registers)) {
+            for (var i = 0; i < registers.length; i++) {
+                require(registers[i]);
+            }
+        } else if (typeof registers === 'string') {
+            require(registers);
+        } else {
+            throw new Error("registers 参数类型不对，只支持字符串数组和字符串");
+        }
+    }
+    if (config.canvas) {
         Canvas = config.canvas;
     }
+
+    var ctx = new Canvas(128, 128);
+    if (config.font) {
+        ctx.font = config.font;
+    }
+
     echarts.setCanvasCreator(function () {
         return ctx;
     });
-    var ctx = new Canvas(128, 128);
-    var chart,option = {
-            title: {
-                text: 'test'
-            },
-            tooltip: {},
-            legend: {
-                data:['test']
-            },
-            xAxis: {
-                data: ["a","b","c","d","f","g"]
-            },
-            yAxis: {},
-            series: [{
-                name: 'test',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-        };
+
+    var chart, option = {
+        title: {
+            text: 'test'
+        },
+        tooltip: {},
+        legend: {
+            data: ['test']
+        },
+        xAxis: {
+            data: ["a", "b", "c", "d", "f", "g"]
+        },
+        yAxis: {},
+        series: [{
+            name: 'test',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+        }]
+    };
     config.width = config.width || 500;
     config.height = config.height || 500;
-    config.option = config.option || option;  
-    if(config.font){
-        ctx.font = config.font;
-    }
-    
+    config.option = config.option || option;
+
+
     config.option.animation = false;
-    chart = echarts.init(new Canvas(parseInt(config.width,10), parseInt(config.height,10)));
+    chart = echarts.init(new Canvas(parseInt(config.width, 10), parseInt(config.height, 10)));
     chart.setOption(config.option);
     if (config.path) {
         try {
@@ -56,8 +72,11 @@ module.exports = async (config) => {
             console.log("Create Img:" + config.path)
         } catch (err) {
             console.error("Error: Write File failed" + err.message)
-        } 
+        }
+        chart.dispose();
     } else {
-        return chart.getDom().toBuffer()
+        var buffer = chart.getDom().toBuffer();
+        chart.dispose();
+        return buffer;
     }
 }
