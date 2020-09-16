@@ -1,5 +1,5 @@
 # node-echarts
-Generate chart by Echarts in Nodejs.
+Generate chart by [Apache ECharts (incubating)](https://github.com/apache/incubator-echarts) in Nodejs.
 ### Install
 OS | Command
 ----- | -----
