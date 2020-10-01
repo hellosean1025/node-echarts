@@ -22,12 +22,12 @@
   },
   "homepage": "https://github.com/suxiaoxin/node-echarts#readme",
   "dependencies": {
-    "canvas-prebuilt": "^1.6.5-prerelease.1",
-    "echarts": "^4.0.3"
+    "canvas": "^2.6.1",
+    "echarts": "^4.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.32",
-    "@babel/register": "^7.0.0-beta.32",
-    "ava": "^0.23.0"
+    "@babel/core": "^7.7.7",
+    "@babel/register": "^7.7.7",
+    "ava": "^2.4.0"
   }
 }

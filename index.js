@@ -1,5 +1,5 @@
 var echarts = require("echarts");
-var Canvas = require("canvas-prebuilt");
+var Canvas = require("canvas");
 var fs = require('fs');
 var path = require('path');
 
@@ -16,68 +16,68 @@ var path = require('path');
  *
  */
 module.exports = function (config) {
-    if (config.canvas) {
-        Canvas = config.canvas;
-    }
+	if (config.canvas) {
+		Canvas = config.canvas;
+	}
 
-    var ctx = new Canvas(128, 128);
-    if (config.font) {
-        ctx.font = config.font;
-    }
+	var ctx = new Canvas.createCanvas(128, 128);
+	if (config.font) {
+		ctx.font = config.font;
+	}
 
-    echarts.setCanvasCreator(function () {
-        return ctx;
-    });
+	echarts.setCanvasCreator(function () {
+		return ctx;
+	});
 
-    var chart, option = {
-        title: {
-            text: 'test'
-        },
-        tooltip: {},
-        legend: {
-            data: ['test']
-        },
-        xAxis: {
-            data: ["a", "b", "c", "d", "f", "g"]
-        },
-        yAxis: {},
-        series: [{
-            name: 'test',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-        }]
-    };
+	var chart, option = {
+		title: {
+			text: 'test'
+		},
+		tooltip: {},
+		legend: {
+			data: ['test']
+		},
+		xAxis: {
+			data: ["a", "b", "c", "d", "f", "g"]
+		},
+		yAxis: {},
+		series: [{
+			name: 'test',
+			type: 'bar',
+			data: [5, 20, 36, 10, 10, 20]
+		}]
+	};
 
-    let defaultConfig = {
-      width: 500,
-      height: 500,
-      option,
-      enableAutoDispose: true
-    }
+	let defaultConfig = {
+		width: 500,
+		height: 500,
+		option,
+		enableAutoDispose: true
+	}
 
-    config = Object.assign({}, defaultConfig, config)
+	config = Object.assign({}, defaultConfig, config)
 
-    config.option.animation = false;
-    chart = echarts.init(new Canvas(parseInt(config.width, 10), parseInt(config.height, 10)));
-    chart.setOption(config.option);
-    if (config.path) {
-        try {
-            fs.writeFileSync(config.path, chart.getDom().toBuffer());
-            if(config.enableAutoDispose){
-              chart.dispose();
-            }
-            console.log("Create Img:" + config.path)
-        } catch (err) {
-            console.error("Error: Write File failed" + err.message)
-        }
-        
-    } else {
-        var buffer = chart.getDom().toBuffer();
-        try{
-          if(config.enableAutoDispose){
-            chart.dispose();
-          }
-        }catch(e){}
-        return buffer;
-    }
+	config.option.animation = false;
+	chart = echarts.init(new Canvas.createCanvas(parseInt(config.width, 10), parseInt(config.height, 10)));
+	chart.setOption(config.option);
+	if (config.path) {
+		try {
+			fs.writeFileSync(config.path, chart.getDom().toBuffer());
+			if (config.enableAutoDispose) {
+				chart.dispose();
+			}
+			console.log("Create Img:" + config.path)
+		} catch (err) {
+			console.error("Error: Write File failed" + err.message)
+		}
+
+	} else {
+		var buffer = chart.getDom().toBuffer();
+		try {
+			if (config.enableAutoDispose) {
+				chart.dispose();
+			}
+		} catch (e) {}
+		return buffer;
+	}
 }
