@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/suxiaoxin/node-echarts#readme",
   "dependencies": {
-    "canvas-prebuilt": "^1.6.5-prerelease.1",
+    "canvas": "^2.6.1",
     "echarts": "^4.0.3"
   },
   "devDependencies": {

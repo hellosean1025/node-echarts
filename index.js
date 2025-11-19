@@ -1,8 +1,69 @@
 var echarts = require("echarts");
-var Canvas = require("canvas-prebuilt");
+var { createCanvas } = require("canvas");
 var fs = require('fs');
 var path = require('path');
 
+/**
+ * default echart option in case the client doesn't define
+ */
+function getDefaultOption() {
+    return {
+        title: {
+            text: 'test',
+        },
+        tooltip: {},
+        legend: {
+            data: ['test'],
+        },
+        xAxis: {
+            data: ["a", "b", "c", "d", "f", "g"],
+        },
+        yAxis: {},
+        series: [{
+            name: 'test',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20],
+        }]
+    };
+}
+
+/**
+ * default config for the option, in case the client doesn't
+ * define it.
+ * 
+ * @param {*} option echart option
+ */
+function getDefaultConfig(option) {
+    return {
+        width: 500,
+        height: 500,
+        option,
+        enableAutoDispose: true,
+    }
+}
+
+/**
+ * saves the chart passed in the provided path
+ * @param {*} chart chart in which thedom will be retrieved and saved
+ * as an image
+ * @param {*} path directory to the image that will be saved
+ */
+function saveChart(chart, path) {
+    try {
+        fs.writeFileSync(path, chart.getDom().toBuffer());
+        console.log("Created image:" + path)
+    } catch (err) {
+        console.error("Error: write file failed: " + err.message)
+    }
+}
+
+/**
+ * retrieves the buffer of the chart
+ * @param {*} chart chart in which the buffer will be retrieved
+ */
+function getBuffer(chart) {
+    return chart.getDom().toBuffer();
+}
 
 /**
  * @param config = {
@@ -12,72 +73,57 @@ var path = require('path');
         //If the path  is not set, return the Buffer of image.
         path:  '', // Path is filepath of the image which will be created.
     }
-
  *
  */
 module.exports = function (config) {
-    if (config.canvas) {
-        Canvas = config.canvas;
-    }
 
-    var ctx = new Canvas(128, 128);
+    const createdCanvas = createCanvas(128, 128);
+    const ctx = createdCanvas.getContext('2d');
+
     if (config.font) {
         ctx.font = config.font;
     }
 
     echarts.setCanvasCreator(function () {
-        return ctx;
+        return createdCanvas;
     });
 
-    var chart, option = {
-        title: {
-            text: 'test'
-        },
-        tooltip: {},
-        legend: {
-            data: ['test']
-        },
-        xAxis: {
-            data: ["a", "b", "c", "d", "f", "g"]
-        },
-        yAxis: {},
-        series: [{
-            name: 'test',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-        }]
-    };
+    const option = getDefaultOption();
+    const defaultConfig = getDefaultConfig(option);
 
-    let defaultConfig = {
-      width: 500,
-      height: 500,
-      option,
-      enableAutoDispose: true
-    }
-
-    config = Object.assign({}, defaultConfig, config)
+    config = Object.assign({}, defaultConfig, config);
 
     config.option.animation = false;
-    chart = echarts.init(new Canvas(parseInt(config.width, 10), parseInt(config.height, 10)));
+    
+    const chart = echarts.init(
+        createCanvas(
+            parseInt(config.width, 10),
+            parseInt(config.height, 10),
+        ),
+    );
+
     chart.setOption(config.option);
-    if (config.path) {
-        try {
-            fs.writeFileSync(config.path, chart.getDom().toBuffer());
-            if(config.enableAutoDispose){
-              chart.dispose();
-            }
-            console.log("Create Img:" + config.path)
-        } catch (err) {
-            console.error("Error: Write File failed" + err.message)
+
+    try {
+        /**
+         * if specified the path, the chart will be saved into it
+         */
+        if (config.path) {
+            saveChart(chart, config.path);
+            return;
         }
-        
-    } else {
-        var buffer = chart.getDom().toBuffer();
-        try{
-          if(config.enableAutoDispose){
+
+        /**
+         * if not, the buffer will be returned
+         */
+        return getBuffer(chart);
+    } finally {
+
+        /**
+         * finally, dispose the chart if client defined so
+         */
+        if (config.enableAutoDispose) {
             chart.dispose();
-          }
-        }catch(e){}
-        return buffer;
+        }
     }
 }
