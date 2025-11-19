@@ -75,9 +75,9 @@ var option = {
         }
     ]
 };
-var node_echarts = require('node-echarts');
+var node_echarts = require('../index');
 var path = require('path');
-var Canvas =require('./node-canvas');
+var Canvas =require('canvas');
 Canvas.registerFont(path.join(__dirname, "华文仿宋.ttf"), { family: "华文仿宋"});
 node_echarts({
     canvas: Canvas,

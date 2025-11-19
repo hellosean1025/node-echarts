@@ -1,7 +1,9 @@
-var echarts = require("echarts");
+require('jsdom-global')()
+
 var { createCanvas } = require("canvas");
 var fs = require('fs');
 var path = require('path');
+var echarts = require("echarts");
 
 /**
  * default echart option in case the client doesn't define
@@ -93,14 +95,32 @@ module.exports = function (config) {
 
     config = Object.assign({}, defaultConfig, config);
 
+    // Disable animation and features that require DOM interaction
     config.option.animation = false;
     
-    const chart = echarts.init(
-        createCanvas(
-            parseInt(config.width, 10),
-            parseInt(config.height, 10),
-        ),
+    // Remove tooltip and toolbox for server-side rendering (they require DOM)
+    delete config.option.tooltip;
+    delete config.option.toolbox;
+    
+    const canvas = createCanvas(
+        parseInt(config.width, 10),
+        parseInt(config.height, 10),
     );
+    // Add DOM event methods to canvas (no actual functionality needed in Node.js)
+    canvas.addEventListener = function() {};
+    canvas.removeEventListener = function() {};
+    canvas.getAttribute = function(name) {
+        if (name === 'width') return this.width;
+        if (name === 'height') return this.height;
+        return null;
+    };
+    canvas.setAttribute = function(name, value) {
+        if (name === 'width') this.width = value;
+        if (name === 'height') this.height = value;
+    };
+    canvas.style = {};
+    
+    const chart = echarts.init(canvas);
 
     chart.setOption(config.option);
 
